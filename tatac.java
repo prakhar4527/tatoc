@@ -1,8 +1,12 @@
 package assignment1;
+import java.util.ArrayList;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.Cookie;
 
 public class tatac{
 
@@ -40,5 +44,31 @@ public class tatac{
 			}
 		}
 		driver.switchTo().defaultContent();
+		WebElement drag=driver.findElement(By.id("dragbox"));
+		WebElement drop=driver.findElement(By.id("dropbox"));
+		Actions builder = new Actions(driver);
+		builder.dragAndDrop(drag, drop).perform();
+		//Action dragAndDrop = builder.clicdragAndDrop(element, target).perform();kAndHold(drag).moveToElement(drop).release(drag).build();
+	    //dragAndDrop.perform();
+		WebElement pro1=driver.findElement(By.xpath("//*[text()[contains(.,'Proceed')]]"));
+		pro1.click();
+		WebElement launch=driver.findElement(By.xpath("//*[text()[contains(.,'Launch Popup Window')]]"));
+		launch.click();
+		ArrayList windowsList =new ArrayList(driver.getWindowHandles());
+		String window1= ((String)windowsList.get(1));
+		 driver.switchTo().window(window1);
+		 driver.findElement(By.id("name")).sendKeys("Prakhar");
+		 driver.findElement(By.id("submit")).click();
+		 String window0= ((String)windowsList.get(0));
+		 driver.switchTo().window(window0);
+		 driver.findElement(By.linkText("Proceed")).click();
+		 driver.findElement(By.linkText("Generate Token")).click();
+		 driver.findElement(By.linkText("Generate Token")).click();
+		 String Token = driver.findElement(By.id("token")).getText();
+		 System.out.println(Token);
+		 String substring1=Token.substring(7);
+		 Cookie name = new Cookie("Token", substring1);
+		 driver.manage().addCookie(name);
+		 driver.findElement(By.linkText("Proceed")).click(); 
 	}
 }
